@@ -1,0 +1,70 @@
+defaultTasks 'clean','test','aggregate'
+
+
+repositories {
+    mavenLocal()
+    jcenter()
+}
+
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+    }
+    dependencies {
+        classpath("net.serenity-bdd:serenity-gradle-plugin:2.0.40")
+        classpath("net.serenity-bdd:serenity-rest-assured:2.0.40")
+        classpath("net.bytebuddy:byte-buddy:1.8.22")
+        classpath("net.bytebuddy:byte-buddy-agent:1.8.22")
+        classpath("org.json:json:20140107")
+        classpath("com.googlecode.json-simple:json-simple:1.1.1")
+
+
+
+
+
+    }
+}
+
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'net.serenity-bdd.aggregator'
+apply from: "$rootDir/gradle/libraries.gradle"
+
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+    compile libs.logback
+
+    testCompile libs.test.serenity.core,
+            libs.test.serenity.screenplay,
+            libs.test.serenity.junit,
+            libs.test.serenity.screenplayWebdriver,
+            libs.test.serenity.cucumber,
+            libs.test.junit,
+            libs.test.assertj,
+            libs.test.serenity.rest,
+            libs.test.json,
+            libs.test.jsonsimple
+    // https://mvnrepository.com/artifact/org.json/json
+
+            
+  
+
+    // https://mvnrepository.com/artifact/net.serenity-bdd/serenity-rest-assured
+    //compile group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: '2.0.40'
+
+}
+
+test {
+    testLogging.showStandardStreams = true
+    systemProperties System.getProperties()
+}
+
+gradle.startParameter.continueOnFailure = true
+
+test.finalizedBy(aggregate)
