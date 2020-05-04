@@ -1,32 +1,42 @@
-defaultTasks 'clean','test','aggregate'
+//defaultTasks 'clean','test','aggregate'
+group 'serenity-bdd-bitbucket'
+version '1.0.0-SNAPSHOT'
 
-
-repositories {
-    mavenLocal()
-    jcenter()
-}
+//repositories {
+//    mavenLocal()
+//    jcenter()
+//}
 
 buildscript {
     repositories {
+        flatDir{
+            dirs 'libs'
+        }
         mavenLocal()
         jcenter()
+        mavenCentral()
     }
     dependencies {
-        classpath("net.serenity-bdd:serenity-gradle-plugin:2.0.40")
-        classpath("net.serenity-bdd:serenity-rest-assured:2.0.40")
+        classpath("net.serenity-bdd:serenity-gradle-plugin:2.2.2")
+        classpath("net.serenity-bdd:serenity-rest-assured:2.2.2")
+        classpath("net.serenity-bdd:serenity-emailer:2.1.0")
         classpath("net.bytebuddy:byte-buddy:1.8.22")
         classpath("net.bytebuddy:byte-buddy-agent:1.8.22")
         classpath("org.json:json:20140107")
         classpath("com.googlecode.json-simple:json-simple:1.1.1")
 
 
-
-
-
     }
 }
 
-
+repositories{
+    flatDir{
+        dirs 'libs'
+    }
+    jcenter()
+    mavenLocal()
+    mavenCentral()
+}
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
@@ -36,33 +46,51 @@ apply from: "$rootDir/gradle/libraries.gradle"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
+configurations.all{
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+javadoc{
+    classpath+=sourceSets.test.compileClasspath
+    source+=sourceSets.test.allJava
+    destinationDir = file("${buildDir}/docs/automation-javadoc")
+}
+
 
 dependencies {
+    compile fileTree(dir: 'libs', include: '**/*.jar')
     compile libs.logback
 
-    testCompile libs.test.serenity.core,
+    compile libs.test.serenity.core,
             libs.test.serenity.screenplay,
-            libs.test.serenity.junit,
+            libs.test.serenity.junit,            
             libs.test.serenity.screenplayWebdriver,
             libs.test.serenity.cucumber,
+            libs.test.serenity.rest,
             libs.test.junit,
             libs.test.assertj,
             libs.test.serenity.rest,
             libs.test.json,
             libs.test.jsonsimple
-    // https://mvnrepository.com/artifact/org.json/json
-
-            
-  
-
-    // https://mvnrepository.com/artifact/net.serenity-bdd/serenity-rest-assured
-    //compile group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: '2.0.40'
-
+            libs.test.log4j
 }
 
+serenity {
+    reports =["email"]
+}
+
+gradle.startParameter.continueOnFailure = true
+
+task testNewJar (type:Jar){
+    classifier ='tests'
+    from sourceSets.test.output
+}
 test {
-    testLogging.showStandardStreams = true
+
     systemProperties System.getProperties()
+    testLogging.showStandardStreams = true
+    test.reports.getHtml().enabled=false
+    test.reports.junitXml.enabled=false
+    include 'starter/CucumberTestSuite.class'
 }
 
 gradle.startParameter.continueOnFailure = true

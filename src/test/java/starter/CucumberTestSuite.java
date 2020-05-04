@@ -11,4 +11,6 @@ import org.junit.runner.RunWith;
         glue = {"starter.stepdefinitions"}
 
 )
-public class CucumberTestSuite {}
+public class CucumberTestSuite {
+    private CucumberTestSuite(){}
+}

@@ -1,11 +1,47 @@
-Feature: Search by keyword
+Feature: Create and View Post on Kudos
 
-  Scenario: Searching for a term
-    #Given Sergey is on the DuckDuckGo home page
-    #When he searches for "cucumber"
-    #Then all the result titles should contain the word "cucumber"
+  Scenario Outline: Login with Alphabetical,Numerical,SpecialChars - username and Password
 
-    #comment test 1, test2,commit in test 2 and push should be in test 2 branch
-    #Given the user is connected to API "http://www.holidaywebservice.com//HolidayService_v2/HolidayService2.asmx?wsdl"
-    Given the user is connected to API "https://reqres.in/api/users?page=2"
+    Given the user is on Kudos Login Page
+    When user login with "<username>" username and "<password>" password
+    Then user view the post
+    And user like the post
+    When user create post
 
+
+    Examples:
+
+      | TestName | username | password     |
+      | Test1    | Test     | TestPassword |
+      | Test2    | 123456   | 123456       |
+      | Test3    | #$#%%    | #$#$$$#$#$&* |
+
+  Scenario Outline: Login with Alphabetical - username and Password and View Post
+
+    Given the user is on Kudos Login Page
+    When user login with "<username>" username and "<password>" password
+    Then user view the post
+    Examples:
+
+      | TestName | username | password     |
+      | Test1    | Test     | TestPassword |
+
+  Scenario Outline: Login with Alphabetical - username and Password and Like the post
+
+    Given the user is on Kudos Login Page
+    When user login with "<username>" username and "<password>" password
+    Then user like the post
+    Examples:
+
+      | TestName | username | password     |
+      | Test1    | Test     | TestPassword |
+
+  Scenario Outline: Login with Alphabetical - username and Password and create Post
+
+    Given the user is on Kudos Login Page
+    When user login with "<username>" username and "<password>" password
+    Then user create post
+    Examples:
+
+      | TestName | username | password     |
+      | Test1    | Test     | TestPassword |

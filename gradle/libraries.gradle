@@ -1,6 +1,7 @@
 ext{
     slf4jVersion = '1.7.7'
     serenityCoreVersion = '2.0.45'
+//    serenityCoreVersion = '2.2.2'
     serenityCucumberVersion = '1.9.35'
     junitVersion='4.12'
     assertJVersion='3.8.0'
@@ -23,6 +24,7 @@ ext{
                     junit: "junit:junit:${junitVersion}",
                     assertj: "org.assertj:assertj-core:${assertJVersion}",
                     json: "org.json:json:20140107",
+                    log4j: "log4j:log4j:1.2.17",
                     jsonsimple:"com.googlecode.json-simple:json-simple:1.1.1"
             ]
     ]
