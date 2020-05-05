@@ -70,7 +70,12 @@ dependencies {
             libs.test.assertj,
             libs.test.serenity.rest,
             libs.test.json,
-            libs.test.jsonsimple
+            libs.test.jsonsimple,
+            libs.test.poi,
+            libs.test.poiooxml,
+            libs.test.xmlbeans,
+            libs.test.mysql,
+            libs.test.opencsv,
             libs.test.log4j
 }
 
