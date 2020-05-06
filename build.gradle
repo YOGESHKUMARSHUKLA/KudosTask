@@ -1,11 +1,7 @@
 //defaultTasks 'clean','test','aggregate'
-group 'serenity-bdd-bitbucket'
+group 'serenity-bdd-framework'
 version '1.0.0-SNAPSHOT'
 
-//repositories {
-//    mavenLocal()
-//    jcenter()
-//}
 
 buildscript {
     repositories {
